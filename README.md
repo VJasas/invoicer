@@ -1,6 +1,6 @@
-# Invoicing System - Valdas Jasas
+# Sąskaitininkas
 
-Local invoicing system for business process automation consultancy.
+Local invoicing system.
 
 ## Features
 
@@ -121,4 +121,4 @@ All UI text is in Lithuanian. Invoice format follows Lithuanian standards.
 
 ---
 
-© 2025 Valdas Jasas - ORDINN Business Solutions
+© 2025 Sąskaitininkas

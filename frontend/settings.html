@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nustatymai | Sąskaitininkas</title>
+  <title>Sąskaitininkas</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body class="min-h-screen bg-structural-white text-graphite-steel">
@@ -18,21 +18,20 @@
 
   <!-- SIDEBAR -->
   <aside id="sidebar" class="sidebar fixed inset-y-0 left-0 z-40 flex h-screen flex-col w-64 -translate-x-full md:translate-x-0 border-r border-ghost-concrete shadow-sm">
-    <div class="flex items-center justify-between px-4 py-4 relative">
-      <div class="flex items-center gap-3">
-        <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-ghost-concrete text-ordinn-red font-semibold">KV</span>
-        <div class="leading-tight brand-text">
-          <p class="text-xs uppercase tracking-[0.2em] text-graphite-steel/70">Sąskaitininkas</p>
-          <h1 class="text-lg font-semibold text-graphite-steel">Konsultacinė valdymo veikla (Valdas Jasas)</h1>
-        </div>
-      </div>
+    <div class="flex items-center justify-between px-3 pt-3 pb-2">
       <div class="flex items-center gap-2">
-        <button id="sidebar-collapse" class="sidebar-toggle hidden md:inline-flex items-center justify-center h-9 w-9 rounded-lg border border-ghost-concrete text-graphite-steel hover:bg-ghost-concrete/50" aria-label="Sutraukti meniu">
+        <button id="sidebar-collapse" class="hidden md:inline-flex items-center justify-center h-9 w-9 rounded-lg border border-ghost-concrete text-graphite-steel hover:bg-ghost-concrete/50" aria-label="Sutraukti meniu">
           <i data-lucide="panel-left" class="h-4 w-4"></i>
         </button>
         <button id="sidebar-close" class="md:hidden inline-flex items-center justify-center h-9 w-9 rounded-lg border border-ghost-concrete text-graphite-steel hover:bg-ghost-concrete/50" aria-label="Užverti meniu">
           <i data-lucide="x" class="h-4 w-4"></i>
         </button>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-between px-4 pb-4">
+      <div class="flex items-center w-full">
+        <img src="assets/logo.png" alt="Sąskaitininkas" class="sidebar-logo" />
       </div>
     </div>
 

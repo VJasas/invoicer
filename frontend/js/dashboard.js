@@ -186,10 +186,10 @@
   
       return `
         <div class="flex gap-4 items-center">
-          <select id="dashboard-year" class="w-32 h-10 rounded-md border border-ghost-concrete px-3 text-sm text-graphite-steel focus:border-ordinn-red focus:outline-none">
+          <select id="dashboard-year" class="input-field w-32 h-10">
             ${yearOptions}
           </select>
-          <select id="dashboard-month" class="w-40 h-10 rounded-md border border-ghost-concrete px-3 text-sm text-graphite-steel focus:border-ordinn-red focus:outline-none">
+          <select id="dashboard-month" class="input-field w-40 h-10">
             ${monthOptions}
           </select>
         </div>
