@@ -1,0 +1,16 @@
+{
+  "name": "invoicing-system",
+  "version": "1.0.0",
+  "description": "Local invoicing system for Valdas Jasas",
+  "scripts": {
+    "build:css": "tailwindcss -i ./frontend/css/input.css -o ./frontend/css/styles.css",
+    "watch:css": "tailwindcss -i ./frontend/css/input.css -o ./frontend/css/styles.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.0",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32"
+  }
+}
+
+

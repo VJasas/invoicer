@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Klientai | Sąskaitininkas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="min-h-screen bg-structural-white text-graphite-steel">
+  <div id="sidebar-backdrop" class="fixed inset-0 bg-graphite-steel/30 backdrop-blur-sm z-30 hidden md:hidden"></div>
+
+  <button id="sidebar-open" class="md:hidden fixed top-4 left-4 z-50 inline-flex items-center justify-center h-10 w-10 rounded-lg border border-ghost-concrete bg-white text-graphite-steel shadow-md" aria-label="Atidaryti meniu">
+    <i data-lucide="menu" class="h-5 w-5"></i>
+  </button>
+
+  <!-- SIDEBAR -->
+  <aside id="sidebar" class="sidebar fixed inset-y-0 left-0 z-40 flex h-screen flex-col w-64 -translate-x-full md:translate-x-0 border-r border-ghost-concrete shadow-sm">
+    <div class="flex items-center justify-between px-4 py-4 relative">
+      <div class="flex items-center gap-3">
+        <span class="flex h-10 w-10 items-center justify-center rounded-lg bg-ghost-concrete text-ordinn-red font-semibold">KV</span>
+        <div class="leading-tight brand-text">
+          <p class="text-xs uppercase tracking-[0.2em] text-graphite-steel/70">Sąskaitininkas</p>
+          <h1 class="text-lg font-semibold text-graphite-steel">Konsultacinė valdymo veikla (Valdas Jasas)</h1>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="sidebar-collapse" class="sidebar-toggle hidden md:inline-flex items-center justify-center h-9 w-9 rounded-lg border border-ghost-concrete text-graphite-steel hover:bg-ghost-concrete/50" aria-label="Sutraukti meniu">
+          <i data-lucide="panel-left" class="h-4 w-4"></i>
+        </button>
+        <button id="sidebar-close" class="md:hidden inline-flex items-center justify-center h-9 w-9 rounded-lg border border-ghost-concrete text-graphite-steel hover:bg-ghost-concrete/50" aria-label="Užverti meniu">
+          <i data-lucide="x" class="h-4 w-4"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="px-4 pb-4 space-y-4">
+      <button class="btn-primary w-full justify-center" data-open-dialog="invoice">
+        <i data-lucide="plus" class="h-4 w-4"></i>
+        <span class="sidebar-text">Sukurti sąskaitą</span>
+      </button>
+
+      <div class="stat-card bg-ghost-concrete border border-ghost-concrete" id="sidebar-stats">
+        <div class="flex items-center justify-between mb-2">
+          <p class="text-sm font-medium text-graphite-steel">Metinė apžvalga</p>
+          <span class="text-xs text-graphite-steel/60 sidebar-meta" id="sidebar-year">—</span>
+        </div>
+        <div class="space-y-3 text-sm">
+          <div class="flex items-center justify-between">
+            <span class="text-graphite-steel/70">Neapmokėtos</span>
+            <span class="font-semibold text-ordinn-red" id="sidebar-unpaid">—</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-graphite-steel/70">Apmokėtos</span>
+            <span class="font-semibold text-graphite-steel" id="sidebar-paid">—</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-graphite-steel/70">Juodraščiai</span>
+            <span class="font-semibold text-graphite-steel" id="sidebar-drafts">—</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-graphite-steel/70">Šių metų suma</span>
+            <span class="font-semibold text-graphite-steel" id="sidebar-total">—</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="flex-1 overflow-y-auto px-2 pb-24 md:pb-6 space-y-2">
+      <a href="index.html" data-nav="dashboard" class="sidebar-link">
+        <i data-lucide="layout-dashboard" class="h-4 w-4 sidebar-icon"></i>
+        <span class="sidebar-text">Dashboard</span>
+      </a>
+
+      <a href="invoices.html" data-nav="invoices" class="sidebar-link">
+        <i data-lucide="file-text" class="h-4 w-4 sidebar-icon"></i>
+        <span class="sidebar-text">Sąskaitos</span>
+      </a>
+
+      <a href="clients.html" data-nav="clients" class="sidebar-link">
+        <i data-lucide="users" class="h-4 w-4 sidebar-icon"></i>
+        <span class="sidebar-text">Klientai</span>
+      </a>
+
+      <a href="settings.html" data-nav="settings" class="sidebar-link">
+        <i data-lucide="settings" class="h-4 w-4 sidebar-icon"></i>
+        <span class="sidebar-text">Nustatymai</span>
+      </a>
+    </nav>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="min-h-screen flex-1 layout-shifted">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-24 md:pt-10 space-y-6">
+      <div id="clients-root" class="space-y-6"></div>
+    </div>
+  </main>
+
+  <!-- MOBILE BOTTOM NAV -->
+  <nav class="fixed bottom-0 left-0 right-0 z-30 bg-structural-white border-t border-ghost-concrete shadow-md md:hidden">
+    <div class="grid grid-cols-4 text-center text-xs text-graphite-steel/80">
+      <a href="index.html" data-nav="dashboard" class="flex flex-col items-center gap-1 py-2 hover:text-ordinn-red/80">
+        <i data-lucide="layout-dashboard" class="h-4 w-4"></i>
+        <span>Dashboard</span>
+      </a>
+      <a href="invoices.html" data-nav="invoices" class="flex flex-col items-center gap-1 py-2 hover:text-ordinn-red/80">
+        <i data-lucide="file-text" class="h-4 w-4"></i>
+        <span>Sąskaitos</span>
+      </a>
+      <a href="clients.html" data-nav="clients" class="flex flex-col items-center gap-1 py-2 text-ordinn-red">
+        <i data-lucide="users" class="h-4 w-4"></i>
+        <span>Klientai</span>
+      </a>
+      <a href="settings.html" data-nav="settings" class="flex flex-col items-center gap-1 py-2 hover:text-ordinn-red/80">
+        <i data-lucide="settings" class="h-4 w-4"></i>
+        <span>Nustatymai</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- DIALOG / MODAL -->
+  <div id="invoice-dialog" class="hidden" role="dialog" aria-modal="true" aria-label="Nauja sąskaita">
+    <div class="dialog-overlay"></div>
+    <div class="dialog-container">
+      <div class="dialog-panel">
+        <div class="dialog-header">
+          <div>
+            <p class="text-xs uppercase tracking-[0.2em] text-graphite-steel/60">Sąskaitų kūrimas</p>
+            <h3 class="text-lg font-semibold text-graphite-steel">Nauja sąskaita</h3>
+          </div>
+          <button data-close-dialog class="btn-ghost h-10 w-10 p-0 text-graphite-steel" aria-label="Uždaryti">
+            <i data-lucide="x" class="h-4 w-4"></i>
+          </button>
+        </div>
+
+        <div class="px-6 py-4 space-y-4">
+          <div class="grid gap-4 md:grid-cols-2">
+            <label class="space-y-1 text-sm">
+              <span class="text-graphite-steel">Klientas</span>
+              <input type="text" class="input-field" placeholder="Įveskite klientą">
+            </label>
+            <label class="space-y-1 text-sm">
+              <span class="text-graphite-steel">Sąskaitos numeris</span>
+              <input type="text" class="input-field" placeholder="INV-2025-025">
+            </label>
+            <label class="space-y-1 text-sm">
+              <span class="text-graphite-steel">Išrašymo data</span>
+              <input type="date" class="input-field">
+            </label>
+            <label class="space-y-1 text-sm">
+              <span class="text-graphite-steel">Terminas</span>
+              <input type="date" class="input-field">
+            </label>
+          </div>
+          <label class="space-y-1 text-sm">
+            <span class="text-graphite-steel">Suma (€)</span>
+            <input type="number" class="input-field" placeholder="0.00">
+          </label>
+          <label class="space-y-1 text-sm">
+            <span class="text-graphite-steel">Komentaras</span>
+            <textarea rows="3" class="input-field" placeholder="Papildoma informacija klientui"></textarea>
+          </label>
+        </div>
+
+        <div class="dialog-footer">
+          <button class="btn-ghost" data-close-dialog>Atšaukti</button>
+          <button class="btn-secondary" data-close-dialog>Juodraštis</button>
+          <button class="btn-primary">Išsaugoti ir siųsti</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="js/api.js"></script>
+  <script src="js/clients.js"></script>
+  <script src="js/layout.js"></script>
+</body>
+</html>
+

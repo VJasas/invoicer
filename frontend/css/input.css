@@ -1,0 +1,159 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-structural-white text-graphite-steel antialiased;
+  }
+
+  a {
+    @apply transition-colors;
+  }
+}
+
+@layer components {
+  .sidebar-link {
+    @apply flex items-center gap-3 px-4 py-2 rounded-lg text-sm font-medium text-graphite-steel hover:bg-ghost-concrete transition-colors;
+  }
+  
+  .sidebar-link-active {
+    @apply bg-ghost-concrete border-l-4 border-ordinn-red;
+  }
+  
+  .stat-card {
+    @apply bg-white border border-ghost-concrete rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow;
+  }
+  
+  .page-header {
+    @apply text-2xl font-semibold text-graphite-steel mb-6;
+  }
+
+  .btn-base {
+    @apply inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-ordinn-red/30 ring-offset-structural-white disabled:opacity-60 disabled:pointer-events-none;
+  }
+
+  .btn-primary {
+    @apply btn-base bg-ordinn-red hover:bg-ordinn-red/90 text-white;
+  }
+
+  .btn-secondary {
+    @apply btn-base bg-ghost-concrete hover:bg-ghost-concrete/80 text-graphite-steel;
+  }
+
+  .btn-ghost {
+    @apply btn-base bg-transparent hover:bg-ghost-concrete text-graphite-steel;
+  }
+
+  .btn-destructive {
+    @apply btn-base bg-red-600 hover:bg-red-700 text-white;
+  }
+
+  .input-field {
+    @apply w-full rounded-md border border-ghost-concrete bg-white px-3 py-2 text-sm text-graphite-steel placeholder:text-graphite-steel/40 focus:border-ordinn-red focus:ring-2 focus:ring-ordinn-red/20 focus:outline-none;
+  }
+
+  .card-shell {
+    @apply bg-white border border-ghost-concrete rounded-lg shadow-sm hover:shadow-md hover:border-graphite-steel/20 transition;
+  }
+
+  .card-muted {
+    @apply bg-ghost-concrete border border-ghost-concrete;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full border px-2.5 py-0.5 text-xs font-medium;
+  }
+
+  .badge-default {
+    @apply bg-ghost-concrete text-graphite-steel border-transparent;
+  }
+
+  .badge-success {
+    @apply bg-green-100 text-green-700 border-green-200;
+  }
+
+  .badge-warning {
+    @apply bg-amber-100 text-amber-700 border-amber-200;
+  }
+
+  .badge-error {
+    @apply bg-ordinn-red/10 text-ordinn-red border-ordinn-red/20;
+  }
+
+  .badge-info {
+    @apply bg-blue-100 text-blue-700 border-blue-200;
+  }
+
+  .table-head {
+    @apply bg-ghost-concrete text-graphite-steel font-medium text-sm;
+  }
+
+  .table-row {
+    @apply border-b border-ghost-concrete hover:bg-ghost-concrete/30;
+  }
+
+  .dialog-overlay {
+    @apply fixed inset-0 bg-graphite-steel/80 backdrop-blur-sm;
+  }
+
+  .dialog-container {
+    @apply fixed inset-0 flex items-center justify-center p-4;
+  }
+
+  .dialog-panel {
+    @apply w-full max-w-xl rounded-lg bg-structural-white shadow-xl border border-ghost-concrete;
+  }
+
+  .dialog-header {
+    @apply flex items-center justify-between px-6 py-4 border-b border-ghost-concrete;
+  }
+
+  .dialog-footer {
+    @apply flex items-center justify-end gap-2 px-6 py-4 border-t border-ghost-concrete;
+  }
+
+  .skeleton {
+    @apply animate-pulse rounded-md bg-ghost-concrete;
+  }
+
+  .sidebar {
+    @apply transition-all duration-300 bg-structural-white;
+  }
+
+  .sidebar-collapsed {
+    @apply w-16;
+  }
+
+  .sidebar-collapsed .sidebar-text,
+  .sidebar-collapsed .sidebar-chevron,
+  .sidebar-collapsed .sidebar-badge,
+  .sidebar-collapsed .sidebar-section-title,
+  .sidebar-collapsed .sidebar-meta {
+    @apply hidden;
+  }
+
+  .sidebar-collapsed .sidebar-link {
+    @apply justify-center px-0;
+  }
+
+  .sidebar-collapsed .sidebar-icon {
+    @apply mx-auto;
+  }
+
+  .toast {
+    @apply rounded-lg border px-4 py-3 text-sm shadow-sm;
+  }
+
+  .toast-success {
+    @apply bg-green-50 text-green-800 border-green-200;
+  }
+
+  .toast-error {
+    @apply bg-ordinn-red/10 text-ordinn-red border-ordinn-red/20;
+  }
+
+  .toast-info {
+    @apply bg-blue-50 text-blue-800 border-blue-200;
+  }
+}
