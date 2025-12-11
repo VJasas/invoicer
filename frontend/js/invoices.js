@@ -3,10 +3,10 @@
   if (!root || typeof window.api === "undefined") return;
 
   const STATUS_META = {
-    draft: { label: "Juodraštis", dot: "bg-amber-500", badge: "bg-amber-100 text-amber-700" },
+    draft: { label: "Sukurta", dot: "bg-amber-500", badge: "bg-amber-100 text-amber-700" },
     sent: { label: "Išsiųsta", dot: "bg-blue-500", badge: "bg-blue-100 text-blue-700" },
     paid: { label: "Apmokėta", dot: "bg-green-600", badge: "bg-green-100 text-green-700" },
-    overdue: { label: "Vėluojama", dot: "bg-ordinn-red", badge: "bg-ordinn-red/10 text-ordinn-red" },
+    overdue: { label: "Neapmokėta", dot: "bg-ordinn-red", badge: "bg-ordinn-red/10 text-ordinn-red" },
     default: { label: "Nežinoma", dot: "bg-graphite-steel", badge: "bg-ghost-concrete text-graphite-steel" },
   };
 
@@ -199,10 +199,12 @@
         });
       }
       const group = groups.get(key);
-      group.invoices.push(inv);
+      const statusKey = inv.is_overdue ? "overdue" : inv.status;
+      const enhancedInvoice = { ...inv, display_status: statusKey };
+      group.invoices.push(enhancedInvoice);
       const total = Number(inv.total || 0);
       group.totalIssued += total;
-      group.totalUnpaid += inv.status === "paid" ? 0 : total;
+      group.totalUnpaid += statusKey === "paid" ? 0 : total;
     });
     return Array.from(groups.values()).sort((a, b) => (a.key < b.key ? 1 : -1));
   }
@@ -218,10 +220,10 @@
             </div>
             <select id="invoice-status" class="input-field w-40">
               <option value="all">Visi statusai</option>
-              <option value="draft">Juodraštis</option>
+              <option value="draft">Sukurta</option>
               <option value="sent">Išsiųsta</option>
               <option value="paid">Apmokėta</option>
-              <option value="overdue">Vėluojama</option>
+              <option value="overdue">Neapmokėta</option>
             </select>
             <div class="flex items-center gap-2">
               <input type="date" id="invoice-date-from" class="input-field w-40" />
@@ -454,7 +456,8 @@
       .map((group) => {
         const rows = group.invoices
           .map((inv) => {
-            const meta = STATUS_META[inv.status] || STATUS_META.default;
+            const statusKey = inv.display_status || (inv.is_overdue ? "overdue" : inv.status);
+            const meta = STATUS_META[statusKey] || STATUS_META.default;
             const isOpen = state.openedRows.has(inv.id);
             const actionsMenuId = `menu-${inv.id}`;
             return `
@@ -470,6 +473,7 @@
                     <div class="inline-flex items-center gap-2">
                       <span class="h-2.5 w-2.5 rounded-full ${meta.dot}"></span>
                       <span class="badge ${meta.badge}">${meta.label}</span>
+                      ${statusKey === "overdue" ? '<span class="text-[11px] text-ordinn-red font-semibold">Terminas pasibaigęs</span>' : ""}
                     </div>
                   </td>
                   <td class="px-3 py-3 text-sm text-graphite-steel/90">Sąskaita faktūra</td>
@@ -557,6 +561,8 @@
       fetchInvoiceDetails(inv.id);
       return `<div class="text-sm text-graphite-steel/70">Kraunama...</div>`;
     }
+    const statusKey = full.is_overdue ? "overdue" : full.status;
+    const meta = STATUS_META[statusKey] || STATUS_META.default;
     const items = full.items
       .map(
         (item) => `
@@ -581,8 +587,19 @@
         <div class="space-y-2">
           <p class="text-sm font-semibold text-graphite-steel">Suma</p>
           <p class="text-lg font-semibold text-graphite-steel">${fmtCurrency(full.total)}</p>
+          <div class="flex items-center gap-2">
+            <span class="badge ${meta.badge}">${meta.label}</span>
+            ${statusKey === "overdue" ? '<span class="text-[11px] text-ordinn-red font-semibold">Terminas pasibaigęs</span>' : ""}
+          </div>
           <p class="text-xs text-graphite-steel/60">Išrašyta: ${fmtDate(full.invoice_date)} • Terminas: ${fmtDate(full.due_date)}</p>
         </div>
+      </div>
+      <div class="mt-3 flex flex-wrap gap-2">
+        <button class="btn-primary h-9 px-3" data-action="view" data-id="${inv.id}">${icon("pencil")} Redaguoti</button>
+        <button class="btn-secondary h-9 px-3" data-action="download" data-id="${inv.id}">${icon("download")} PDF</button>
+        <button class="btn-secondary h-9 px-3" data-action="duplicate" data-id="${inv.id}">${icon("copy")} Dubliuoti</button>
+        <button class="btn-secondary h-9 px-3" data-action="status" data-status="sent" data-id="${inv.id}">${icon("send")} Pažymėti išsiųsta</button>
+        <button class="btn-secondary h-9 px-3" data-action="status" data-status="paid" data-id="${inv.id}">${icon("check")} Pažymėti apmokėta</button>
       </div>
       <div class="mt-3 space-y-2">
         <p class="text-sm font-semibold text-graphite-steel">Eilutės</p>

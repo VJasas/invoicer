@@ -12,6 +12,8 @@
   }
 }
 
+/* NOTE: styles.css is generated from input.css via Tailwind. Do not edit styles.css directly. */
+
 @layer components {
   .sidebar-link {
     @apply flex items-center gap-3 px-4 py-2 rounded-lg text-sm font-medium text-graphite-steel hover:bg-ghost-concrete transition-colors;
@@ -118,11 +120,75 @@
   }
 
   .sidebar {
-    @apply transition-all duration-300 bg-structural-white;
+    @apply w-64 transition-all duration-300 bg-structural-white;
+  }
+
+  .sidebar-inner {
+    @apply flex flex-col h-full;
+  }
+
+  .sidebar-logo {
+    @apply block w-full h-auto object-contain rounded-md transition-all duration-300;
+  }
+
+  .sidebar-cta {
+    @apply w-full justify-center;
   }
 
   .sidebar-collapsed {
     @apply w-16;
+    min-width: 4rem;
+    max-width: 4rem;
+  padding-left: 0;
+  padding-right: 0;
+  }
+
+  .sidebar-collapsed .sidebar-inner {
+    @apply px-0 pb-0 space-y-2;
+  }
+
+  .sidebar-collapsed .sidebar-cta-container {
+    @apply space-y-2;
+  }
+
+  .sidebar-collapsed .sidebar-toggle-container {
+    @apply px-0 py-2 justify-center;
+  }
+
+  .sidebar-collapsed .sidebar-logo {
+  @apply h-8 mx-auto block w-auto;
+  }
+
+  .sidebar-collapsed .sidebar-cta {
+    @apply w-8 h-8 p-0 justify-center rounded-lg mx-auto;
+  }
+
+  .sidebar-collapsed .sidebar-cta .sidebar-text {
+    @apply hidden;
+  }
+
+  .sidebar-collapsed #sidebar-stats {
+    @apply hidden;
+  }
+
+  .sidebar-collapsed .sidebar-link {
+    @apply justify-center px-0;
+  }
+
+  .sidebar-collapsed nav {
+    @apply px-0;
+  }
+
+  .sidebar-collapsed .sidebar-link .sidebar-icon {
+    @apply mx-auto;
+  }
+
+  .sidebar-collapsed #sidebar-collapse {
+    @apply mx-auto block w-8 h-8 p-0;
+  }
+
+  .sidebar-collapsed .sidebar-link .sidebar-text {
+    @apply hidden;
   }
 
   .sidebar-collapsed .sidebar-text,
@@ -133,12 +199,20 @@
     @apply hidden;
   }
 
-  .sidebar-collapsed .sidebar-link {
-    @apply justify-center px-0;
-  }
-
   .sidebar-collapsed .sidebar-icon {
     @apply mx-auto;
+  }
+
+  /* Layout shift for main content when sidebar is open/collapsed (desktop) */
+  @screen md {
+    .layout-shifted {
+      margin-left: 16rem; /* sidebar width */
+      @apply transition-all duration-300;
+    }
+    .layout-shifted-collapsed {
+      margin-left: 4rem; /* collapsed sidebar width */
+      @apply transition-all duration-300;
+    }
   }
 
   .toast {
@@ -155,5 +229,23 @@
 
   .toast-info {
     @apply bg-blue-50 text-blue-800 border-blue-200;
+  }
+
+  /* Buttons padding */
+  .btn-primary {
+    @apply py-2.5 px-3;
+  }
+  .btn-secondary {
+    @apply py-2.5 px-3;
+  }
+
+  /* Select arrow spacing */
+  select.input-field {
+    appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, #2c3e50 50%), linear-gradient(135deg, #2c3e50 50%, transparent 50%), linear-gradient(to right, transparent, transparent);
+    background-position: calc(100% - 1.1rem) 50%, calc(100% - 0.75rem) 50%, 100% 0;
+    background-size: 6px 6px, 6px 6px, 2.5rem 100%;
+    background-repeat: no-repeat;
+    padding-right: 2.5rem;
   }
 }

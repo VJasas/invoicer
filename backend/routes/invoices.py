@@ -81,6 +81,30 @@ def _normalize_status(value) -> InvoiceStatus | None:
     return value if isinstance(value, InvoiceStatus) else _parse_status(value)
 
 
+def _is_overdue(invoice: Invoice) -> bool:
+    due_date = invoice.due_date
+    if not due_date:
+        return False
+    normalized = _normalize_status(invoice.status)
+    if normalized == InvoiceStatus.PAID:
+        return False
+    return due_date < date.today()
+
+
+def _refresh_overdue_statuses():
+    """Persist overdue status for invoices whose due date has passed and are not paid."""
+    today = date.today()
+    updated = (
+        Invoice.query.filter(
+            Invoice.due_date < today,
+            Invoice.status != InvoiceStatus.PAID,
+            Invoice.status != InvoiceStatus.OVERDUE,
+        ).update({Invoice.status: InvoiceStatus.OVERDUE}, synchronize_session=False)
+    )
+    if updated:
+        db.session.commit()
+
+
 def _decimal_to_float(value) -> float:
     try:
         return float(value or 0)
@@ -124,6 +148,7 @@ def _serialize_invoice_summary(invoice: Invoice) -> dict:
         "invoice_date": invoice.invoice_date.isoformat() if invoice.invoice_date else None,
         "due_date": invoice.due_date.isoformat() if invoice.due_date else None,
         "status": status_value,
+        "is_overdue": _is_overdue(invoice),
         "total": _decimal_to_float(invoice.total),
         "created_at": invoice.created_at.isoformat() if invoice.created_at else None,
     }
@@ -160,6 +185,7 @@ def _serialize_invoice_full(invoice: Invoice) -> dict:
         "invoice_date": invoice.invoice_date.isoformat() if invoice.invoice_date else None,
         "due_date": invoice.due_date.isoformat() if invoice.due_date else None,
         "status": status_value,
+        "is_overdue": _is_overdue(invoice),
         "exclude_vat": invoice.exclude_vat,
         "subtotal": _decimal_to_float(invoice.subtotal),
         "vat_amount": _decimal_to_float(invoice.vat_amount),
@@ -221,9 +247,7 @@ def _invoice_to_pdf_payload(invoice: Invoice) -> dict:
         "address": company.address if company else "",
         "phone": company.phone if company else "",
         "email": company.email if company else "",
-        "bank_account": f"{bank_account.bank_name} {bank_account.account_number}"
-        if bank_account
-        else "",
+        "bank_account": bank_account.account_number if bank_account else "",
     }
 
     client = invoice.client
@@ -330,6 +354,8 @@ def _apply_filters(query, *, status, client_id, series_id, date_from, date_to):
 def list_invoices():
     args = request.args
 
+    _refresh_overdue_statuses()
+
     limit = _parse_int(args.get("limit"), DEFAULT_LIMIT, minimum=1, maximum=MAX_LIMIT)
     offset = _parse_int(args.get("offset"), 0, minimum=0)
     page = offset // limit + 1 if limit else 1
@@ -400,6 +426,8 @@ def list_invoices():
 
 @invoices_bp.get("/<int:invoice_id>")
 def get_invoice(invoice_id: int):
+    _refresh_overdue_statuses()
+
     invoice = Invoice.query.options(
         joinedload(Invoice.items), joinedload(Invoice.client), joinedload(Invoice.series)
     ).get_or_404(invoice_id)
